@@ -1,0 +1,1 @@
+export PLACEMENTEVENTMODE="linuxProduction"

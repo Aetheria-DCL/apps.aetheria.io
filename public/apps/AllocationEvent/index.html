@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+            <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+            <title>Aetheria Land Allocation</title>
+            <link rel="stylesheet" href="style.css" type="text/css"/>
+            <script src="js/socket.io-client.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script id="Selection-Template" type="text/x-custom-template">
+                <div id="Selection#ID#" class="form-field-right">
+                        <div class="plotnr">Plot #P1ID#</div>
+                        <div class="plot-width">
+                            <label>Width:</label>
+                            <input id="Sel#ID#X" type="number" value="0"/>
+                        </div>
+                        <div class="plot-height">
+                            <label>Height:</label>
+                            <input id="Sel#ID#Y" type="number" value="0"/>
+                        </div>
+                        <div class="selection-land-used">LAND used: <i id="Sel#ID#">0</i></div>
+                </div>
+            </script>
+        </head>
+        <body>
+            <div>
+                <div class="container-logo">
+                    <img src="logo-final-inverse.png" alt="aetheria-logo">
+                </div>
+                <div class="title">
+                    <h1>Aetheria Land Allocation</h1>
+                </div>
+                <div id="CentralForm">
+                     <div id="left">
+                            <form id="left-form">
+
+                                 <div id="left-field">
+                                    <div class="form-field-left container-land-to-use">
+                                        <h3>Please provide your details below:</h3>
+                                        <p>You must be logged into an Ethereum address from which you contributed land to Aetheria. If you contributed from more than one address, fill this out for each one. You can submit this form as many times as you like, if you change your mind, but only the most recent submission will count. Fields markd with * are required.</p>
+                                    </div>
+
+                                    <div class="form-field-left">
+                                        <label>Email:*</label>
+                                        <input class="left-input-required" type="email" id="email-input" placeholder="someone@somewhe.re"></input>
+                                    </div>
+
+                                    <div class="form-field-left">
+                                        <label>Discord ID:*</label>
+                                        <input class="left-input-required" id="DCID-input" placeholder="Alonzo#0100"></input>
+                                    </div>
+
+                                    <div class="container-land-text">
+                                        <h3 id="LandText">You Have 0 LAND</h3>
+                                        <p>Let us know how much you want to keep for yourself and how much you would like to donate for public works, such as roads, walls and the Fractus Club. See <a href="https://docs.google.com/document/d/1hkIOYiQ5-406SfNcukV5APutWetfZ4qy88_7C-XhQiY" style="color:green">here for a list of benefits.</a> Private LAND will be allocated for your use, consistent with district land use policies, and the rights to build on it will be provided to the wallet address you've logged in with here.</p>
+                                    </div>
+
+                                    <div class="form-field-left">
+                                        <label>Privately-Allocated Land:*</label>
+                                        <input class="left-input-required" type="number" id="PrivateLand-input" value="0" ng-model="PrivateLand"></input>
+                                    </div>
+
+                                    <div class="form-field-left">
+                                        <label>Publically-Donated Land:*</label>
+                                        <input class="left-input-required" type="number" id="PublicLand-input" value="0"></input>
+                                    </div> 
+
+                                    <div class="form-field-left">
+                                        <input id="left-button" class="btn" type="button" value="Submit" disabled="true" onclick="SetupRightSide();"/>
+                                    </div> 
+                                    
+                                 </div>
+                            </form>
+                     </div>
+                     <div id="right">
+                            <form id="right-form">
+                                    <div id="right-field" disabled>
+                                        <div class="form-field-right-wide">
+                                            <h3 class="descip-text">What do you plan to do with your private LAND:</h3>
+                                            <p>The best described projects with full proposals get priority placement.</p>
+                                            <div id="Descrip" class="form-textarea">
+                                                <textarea id="Descrip-text" placeholder="For Example: With plot 1, I plan to build a cool cyberpunk themed store, selling avatar clothes, weapons and other things. For the first stage I'll be focused on building the store interior and exterior. Later I'll get someone to help me with the scripting and e-commerce integration, so items can be purchased by customers. For plot 2, I want to build a small laser disc arena where combatants can fight to the death for prizes and glory." rows="9"></textarea>
+                                            </div>
+                                        </div>
+                                        <div id="Links"  class="form-field-right-wide">
+                                            <h3 class="descip-text">Links to project proposals</h3>
+                                            <div class="form-textarea">
+                                                <textarea id="Links-text" placeholder="https://www.dropbox.com/s/dka5dhe4/cool-project.pdf https://www.dropbox.com/s/dka5dhe4/even-cooler-project.pdf" rows="9"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-field-right-wide container-land-to-use">
+                                         <h3 id="right-LandToUse">You have <i id="PrivateLand-count" color="white">0</i> LAND remaining</h3>
+                                         <p>What size do you want your private LAND plots to be? Plots can only have square or rectangular arragements. </p>
+                                        </div>
+                                        <div id="Selection-Wrapper">
+                                            <input class="btn" id="sel-add" type="button" value="Add Plot">
+                                            <div id="Selections">
+                                                <div id="Selection0" class="form-field-right">
+                                                    <div class="plotnr">Plot 1</div>
+                                                    <div class="plot-width">
+                                                    <label>Width:</label>
+                                                    <input id="Sel0X" type="number" value="0"/>
+                                                </div>
+                                                <div class="plot-height">
+                                                    <label>Height:</label>
+                                                    <input id="Sel0Y" type="number" value="0"/>
+                                                </div>
+                                                <div class="selection-land-used">LAND used: <i id="Sel0">0</i></div>
+                                                </div>
+                                            </div>
+                                            <input class="btn" id="sel-rem" type="button" value="Remove Plot">
+                                        </div>
+                                            <input id="right-button" class="btn" type="button" value="Submit" disabled="true" onclick="Commit()"/>
+                                            <div class="submit-error" style="display: none">
+                                            <h3>Error</h3>
+                                            <p>You need to fill out the fields marked in red before continuing.</p>
+                                        </div>
+                                        <div class="thank-you container-land-text">
+                                            <h2>Thank you for being part of Aetheria!</h2>
+                                        </div>
+                                </div>
+                            </form>
+                     </div>
+                     <div id="ERROR">
+                        <center id="ERROR-FHC" style="display: none; z-index: 1;">
+                            <h1 style="color: white">Sorry the form has closed</h1>
+                        </center>
+                        <center id="ERROR-NW3" style="display: none; z-index: 1;">
+                            <h1 style="color: white">Please Login to Your Web3 Provider (e.g. MetaMask) and Reload</h1>
+                        </center>
+                        <center id="ERROR-NL" style="display: none; z-index: 1;">
+                            <h1 style="color: white">The address you are using did not contribute</h1>
+                        </center>
+                        <center id="ERROR-NS" style="display: none; z-index: 1;">
+                            <h1 style="color: white">The socket server is not online</h1>
+                        </center>
+                        <center id="ERROR-AL" style="display: none; z-index: 1;">
+                            <h1 style="color: white">Sorry you cannot modify your allocation in the previous iteration</h1>
+                        </center>
+                     </div>
+                </div>
+            </div>
+     </body>
+     <script src="js/new-main.js"></script>
+</html>

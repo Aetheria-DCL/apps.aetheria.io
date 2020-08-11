@@ -1,0 +1,1 @@
+sudo login apps -f

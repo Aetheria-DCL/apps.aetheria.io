@@ -1,0 +1,71 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../resources/logo.jpg">
+  
+    <title>Aetheria</title>
+    <link rel="stylesheet" href="../resources/style.css" type="text/css"/>
+</head>
+<body>
+        <div class="main"> 
+               <div class="logo">
+                  <img src="../resources/logo.jpg">
+                </div>
+                <div class="heading">
+                  <h2>
+                    THANK YOU FOR CONTRIBUTING TO AETHERIA
+                  </h2>
+                  <h3>
+                    You can resubmit the form as many times as you like
+                  </h3>
+                  <h3 id="contribs">
+                      
+                  </h3>
+                  <center id="time-until">
+                      Time until the form closes:  
+                  </center>
+                </div>
+                <div class="subheading">
+                  <p>We will be in touch with people who have submitted larger and interesting proposals to invite them into a VOIP chat to give them priority placements</p>
+                  <h3><a href="http://aetheria.io">Go Home</a></h3>
+                </div>
+              </div>
+              <script>
+              publicLand = localStorage.formData.split(",")[3].split("|")[1]
+              privateLand = localStorage.formData.split(",")[2].split("|")[1]
+              document.getElementById("contribs").innerHTML = "You kept " + privateLand + " land and contributed " + publicLand + " land towards the community";
+                        var Ready = false;
+          // Set the date we're counting down to
+          var countDownDate = new Date("Mar 1, 2019 23:59:00").getTime();
+          // Update the count down every 1 second
+          var x = setInterval(function() {
+          
+            // Get todays date and time
+            var now = new Date().getTime();
+          
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+          
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          
+            // Display the result in the element with id="demo"
+            document.getElementById("time-until").innerHTML = "Time until the form closes: " + days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+          
+            // If the count down is finished, write some text 
+            if (distance < 0) {
+              clearInterval(x);
+              document.getElementById("time-until").innerHTML = "The Form Is Closed";
+              document.location.href = "https://apps.aetheria.io/AllocationEvent/End.html"
+            }
+          }, 1000);
+              </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "aetheriawebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "null.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "./deploy.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://oauth2:12aRTxGfpfUgJ-qmbeWy@gitlab.com/Aetheria/WebSite.git"
+  },
+  "author": "Alonzo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/Aetheria/WebSite/issues"
+  },
+  "homepage": "https://gitlab.com/Aetheria/WebSite#readme"
+}

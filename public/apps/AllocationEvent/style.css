@@ -1,0 +1,157 @@
+* { margin: 0; padding: 0; }
+body {
+  color: white;
+  font-family: 'Andale Mono', monospace;
+  background: linear-gradient(0deg, rgba(10,10,10,1), rgba(5,5,5,0)), url(bg.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+#CentralForm {
+  margin: auto;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#left {
+  max-width: 500px;
+  padding: 20px 20px;
+}
+
+#right {
+  max-width: 500px;
+  padding: 20px 20px;
+}
+
+#right-field {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#right-button {
+  margin: 20px 0;
+}
+
+#Descip {
+  width: 100%;
+  padding: 40px 10px 0px 10px;
+} 
+
+#LandText {
+  padding: 10px 0px;
+}
+
+input {
+  margin: 10px 0;
+}
+
+label, input {
+  font-size: 14px;
+  width: 100%;
+}
+
+.btn {
+  font-family: 'Andale Mono', monospace;
+  border-style: none;
+  color: white;
+  background-color: black;
+  font-size: 13px;
+  padding: 10px;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+}
+
+.container-logo {
+  padding: 70px 10px 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-logo img {
+  width: 150px;
+}
+
+.container-land-text {
+  padding-top: 40px;
+  padding-bottom: 10px;
+  background-color: black;
+  opacity: 0.7;
+  border-radius: 3px;
+  padding: 20px;
+}
+
+.container-land-to-use {
+  padding-top: 40px;
+  padding-bottom: 10px;
+  background-color: black;
+  opacity: 0.7;
+  border-radius: 3px;
+  padding: 30px 20px !important;
+  margin-bottom: 10px;
+}
+
+.title {
+  padding: 20px 30px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-field-left {
+  padding: 15px 10px;
+}
+
+.form-field-right {
+  display: flex;
+  flex-wrap: wrap;
+}
+.form-field-right div {
+  max-width: 20%;
+}
+
+.form-field-right-wide {
+  width: 100%;
+  padding: 10px;
+}
+
+.descip-text {
+  padding: 10px 0;
+}
+
+ .form-textarea {
+  width: 100%;
+ }
+
+ .form-textarea textarea {
+  margin: 0;
+  border-radius: 3px;
+  padding: 10px;
+  width: 100%;
+ }
+
+.thank-you {
+  text-align: center;
+  padding: 30px 40px;
+}
+
+.plotnr {
+  margin-right: 20px;
+}
+
+.plot-width {
+  margin-right: 20px;
+}
+
+.plot-height {
+  margin-right: 20px;
+}
