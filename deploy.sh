@@ -3,7 +3,6 @@ if [ "$(whoami)" != "apps" ]; then
 	exit 1
 fi
 
-cd /var/www/html
 git pull origin
 
 chmod +x ./deployScripts/AllocationEvent.sh

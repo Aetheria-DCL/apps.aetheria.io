@@ -68,7 +68,6 @@ const Store = new Proxy({}, {
     }
 })
 
-var Approved = require('./Approved.json');
 var Approved = new Proxy({}, {
     get: async function(obj, prop)
     {
@@ -170,24 +169,7 @@ io.on('connection', function(socket){
     socket.on("PING", (data) => {
         socket.emit("PONG", "");
     });
-
-	allocationResponses = await Store["all"];
-	approvedResponses = await Approved["all"];
-
-        socket.emit("Results", allocationResponses); 
-        socket.emit("Approved", approvedResponses);
-    });
     
-    socket.on("Approve", function(data) {
-        //data is address of approved user
-        console.log(data);
-        
-        Approved[data] = true;
-    });
-    
-    socket.on("UnApprove", function(data) {
-        Approved[data] = false;
-    });
     if (isItClosingTime())
         socket.emit("ClosingTime", "");
 });
