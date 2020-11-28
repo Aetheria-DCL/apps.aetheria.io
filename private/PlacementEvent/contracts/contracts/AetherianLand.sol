@@ -1,11 +1,11 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.5;
 
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 import "./LAND/ILANDRegistry.sol";
 import "./LAND/IEstateRegistry.sol";
 
-contract AetherianLand is Ownable, ERC721Full {
+contract AetherianLand is Ownable, ERC721 {
     ILANDRegistry private landContract;
     IEstateRegistry private estateContract;
     mapping(uint256 => bool) private isClaimed;
@@ -26,6 +26,14 @@ contract AetherianLand is Ownable, ERC721Full {
             }
         }
         return true;
+    }
+
+    function _setUpdateOperator(address newOperator, uint256 plotId) internal {
+        estateContract.setLandUpdateOperator(estateId, plotId, newOperator);
+    }
+
+    function _setManyUpdateOperator(address newOperator, uint256[] memory plotIds) internal {
+        estateContract.setManyLandUpdateOperator(estateId, plotIds, newOperator);
     }
 
     function setDelegatedSigner(address newDelegate) external onlyOwner {
@@ -56,8 +64,7 @@ contract AetherianLand is Ownable, ERC721Full {
 
     function setUpdateOperator(address newOperator, uint256 plotId) external {
         require(ownerOf(plotId) == msg.sender, "Not land owner");
-
-        estateContract.setLandUpdateOperator(estateId, plotId, newOperator);
+        _setUpdateOperator(newOperator, plotId);
     }
 
     function setManyUpdateOperator(address newOperator, uint256[] calldata plotIds) external {
@@ -77,27 +84,21 @@ contract AetherianLand is Ownable, ERC721Full {
             isClaimed[plotIds[i]] = true;
         }
 
-        this.setManyUpdateOperator(userAddress, plotIds);
+        _setManyUpdateOperator(userAddress, plotIds);
     }
 
-  function _doTransferFrom(
-    address from,
-    address to,
-    uint256 assetId,
-    bytes memory userData,
-    bool doCheck
-  )
-    internal
-  {
-    super._doTransferFrom(
+  function _transferFrom (
+      address from,
+      address to,
+      uint256 tokenId
+    ) internal {
+    super._transferFrom (
       from,
       to,
-      assetId,
-      userData,
-      doCheck
+      tokenId
     );
 
-    estateContract.setLandUpdateOperator(estateId, assetId, to); //new owner is default operator
+    _setUpdateOperator(to, tokenId); //new owner is default operator
   }
 
     event DelegateChanged(

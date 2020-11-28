@@ -38,7 +38,7 @@ contract("TestAetheriaFirstStageProxy", function(accounts) {
       TestAetheriaFirstStageProxy.deployed(instance.address).then(async (contract) => {
         let authorizedCaller = accounts[0];
         let idealDelegate = accounts[1];
-        let idealDelegateKey = '0x2c210f5e2021d27360b0cc17ef4218475f34ad36bba2ce74aef97e65546a2e0e';
+        let idealDelegateKey = '0x45a6cd707e8c42b4b534e84456978164d41df8669a96bbd60d77b8eff5c05465';
         let normalUser = accounts[2];
         let plotIds = [0, 1, 2, 3];
         let nonce = 1;
