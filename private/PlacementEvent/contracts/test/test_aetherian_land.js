@@ -123,4 +123,28 @@ contract("TestAetherianLand", function(accounts) {
             });
         });
     });
+
+
+    it("owner should be able to use contingency burn", (done) => {
+        TestDummyEstate.deployed().then(async (estate) => {
+            TestAetherianLand.deployed().then(async (contract) => {
+                await contract.deleteTokens([0], {from : accounts[0]});
+                let currentOwner = await estate.operatorOf.call(0);
+
+                assert(currentOwner != accounts[3]);
+
+                done();
+            });
+        });
+    });
+
+    it("non-owner shouldn't be able to use contingency burn", (done) => {
+        TestAetherianLand.deployed().then(async (contract) => {
+            try {
+                await contract.deleteTokens([0], {from : accounts[1]});
+            } catch {
+                done();
+            }
+        });
+    });
 });

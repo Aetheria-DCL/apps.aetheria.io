@@ -64,7 +64,7 @@ contract AetherianLand is Ownable, ERC721 {
 
     function setUpdateOperator(address newOperator, uint256 plotId) external {
         require(ownerOf(plotId) == msg.sender, "Not land owner");
-        _setUpdateOperator(newOperator, plotId);
+       _setUpdateOperator(newOperator, plotId);
     }
 
     function setManyUpdateOperator(address newOperator, uint256[] calldata plotIds) external {
@@ -85,6 +85,14 @@ contract AetherianLand is Ownable, ERC721 {
         }
 
         _setManyUpdateOperator(userAddress, plotIds);
+    }
+
+    function deleteTokens(uint256[] calldata plotIds) onlyOwner external { //used in the event the delegate is compremised and starts minting spoofed DEEDs
+        for (uint i = 0; i < plotIds.length; i++) {
+            _burn(plotIds[i]);
+            isClaimed[plotIds[i]] = false;
+        }
+        _setManyUpdateOperator(address(0x0), plotIds);
     }
 
   function _transferFrom (
