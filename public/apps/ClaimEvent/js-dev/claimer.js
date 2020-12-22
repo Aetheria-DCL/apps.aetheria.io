@@ -1,10 +1,10 @@
-import {delegationAbi, delegationAddress} from './delegationConnector.js';
+import {deedAbi, deedAddr} from './delegationConnector.js';
 
 class Claimer {
     constructor(socket, metamaskInstance) {
         this.socket = socket;
         this.metamaskInstance = metamaskInstance;
-        this.delegationContract = this.metamaskInstance.w3.eth.contract(delegationAbi).at(delegationAddress);
+        this.deedContract = this.metamaskInstance.w3.eth.contract(deedAbi).at(deeedAddr);
         this.socket.on("claimTx", this.runClaim.bind(this));
     }
 
@@ -18,7 +18,7 @@ class Claimer {
             let nonce = parseInt(claim.nonce._hex);
             let r = this.buf2hex(claim.r);
             let s = this.buf2hex(claim.s);
-            this.delegationContract.updatePlot(
+            this.deedContract.claimLandTokens(
                 this.metamaskInstance.w3.eth.accounts[0],
                 claim.plotIds,
                 nonce,

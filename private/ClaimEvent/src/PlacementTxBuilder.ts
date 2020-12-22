@@ -1,6 +1,11 @@
 import * as Web3 from "web3";
 import * as util from 'ethereumjs-util';
-import {password, delegationABI, landABI, delegAddr, landAddr} from './DelegationABI';
+import {password, landAddr} from './DelegationABI';
+
+function getRandNonce()
+{
+    return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+}
 
 class PlacementTxBuilder {
     web3: any;
@@ -14,22 +19,20 @@ class PlacementTxBuilder {
         //@ts-ignore
         this.web3 = new Web3("http://localhost:8545")
         this.landInstance = new this.web3.eth.Contract(landABI, landAddr);
-        this.delegInstance = new this.web3.eth.Contract(delegationABI, delegAddr);
     }
-    
 
     fromRpcSig(sig: string) {
         const buf: Buffer = util.toBuffer(sig)
-          
+
         // NOTE: with potential introduction of chainId this might need to be updated
         if (buf.length !== 65) {
             throw new Error('Invalid signature length')
         }
-          
+
         let v = buf[64];
-        
+
         //removed 27 check should fix the signature check
-        
+
         return {
             v: v,
             r: buf.slice(0, 32),
@@ -39,8 +42,8 @@ class PlacementTxBuilder {
 
     async buildTx(plotArray: any, addr: string)
     {
-        let nonce = await this.delegInstance.methods.currentNonce.call()
-        let cords = plotArray.map((x:any)=>x.cords);
+        let nonce = getRandNonce()
+        let cords = plotArray.map((x:any)=>x.cords)
         let landIds= await this.getLandIds(cords)
         let landHexs = landIds.map((x:any)=>x._hex)
         let addresses =  await this.web3.eth.getAccounts()
@@ -49,7 +52,7 @@ class PlacementTxBuilder {
         let packedHashedData = this.web3.utils.keccak256(packed);
         let sig = await this.web3.eth.personal.sign(packedHashedData, address, password);
         let signatureParams = this.fromRpcSig(sig);
-        
+
         return {
             v: signatureParams.v,
             r: signatureParams.r,
