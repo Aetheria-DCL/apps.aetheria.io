@@ -31,7 +31,6 @@ class ClaimHandler {
             this.flagPlotsAsClaimed(plotArray);
             let txRetPromised : any = await this.txBuilder.buildManyTx(plotArray, socket.addr)
             let txRet = await Promise.all(txRetPromised);
-
             socket.emit("claimTx", txRet);
         }));
         socket.on("listLands", async () => {

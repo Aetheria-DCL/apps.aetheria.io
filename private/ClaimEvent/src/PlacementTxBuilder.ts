@@ -1,6 +1,6 @@
 import * as Web3 from "web3";
 import * as util from 'ethereumjs-util';
-import {password, landAddr} from './DelegationABI';
+import {password, landABI, landAddr} from './DelegationABI';
 
 function getRandNonce()
 {
@@ -52,7 +52,6 @@ class PlacementTxBuilder {
         let packedHashedData = this.web3.utils.keccak256(packed);
         let sig = await this.web3.eth.personal.sign(packedHashedData, address, password);
         let signatureParams = this.fromRpcSig(sig);
-
         return {
             v: signatureParams.v,
             r: signatureParams.r,
@@ -70,7 +69,8 @@ class PlacementTxBuilder {
         let chunks = this.chunkArray(plotArray, 100);
         chunks.forEach(((plots: any) => {
             retval.push(this.buildTx(plots, addr));
-        }).bind(this))
+	}).bind(this));
+
         return retval;
     }
 
