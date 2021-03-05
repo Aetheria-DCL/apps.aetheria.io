@@ -5,10 +5,10 @@ class MMInterface
         this.w3 = null;
 
         if (window.ethereum) {
-            this.w3 = new Web3(ethereum);
+            this.w3 = new Web3(window.ethereum);
             try {
                 // Request account access if needed
-                ethereum.enable();
+                window.ethereum.enable();
             } catch (error) {
                 window.history.back();
             }
