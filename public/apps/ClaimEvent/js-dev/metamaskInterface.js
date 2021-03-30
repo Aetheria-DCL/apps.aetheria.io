@@ -1,3 +1,5 @@
+import Web3 from './lib/web3'
+
 class MMInterface
 {
     constructor()
@@ -22,7 +24,7 @@ class MMInterface
     requestSigning(chal, addr)
     {
         return new Promise((res) => {
-            this.w3.personal.sign(chal, addr, "", (err, sig)=>{
+            this.w3.eth.personal.sign(chal, addr, "", (err, sig)=>{
                 res(sig);
             });
         });
@@ -30,7 +32,8 @@ class MMInterface
 
     async getMainAccount()
     {
-        return await this.w3.eth.accounts[0];
+	let accounts = await this.w3.eth.getAccounts()
+        return accounts[0];
     }
 }
 

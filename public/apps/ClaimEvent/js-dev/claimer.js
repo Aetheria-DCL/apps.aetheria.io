@@ -4,7 +4,7 @@ class Claimer {
     constructor(socket, metamaskInstance) {
         this.socket = socket;
         this.metamaskInstance = metamaskInstance;
-        this.deedContract = this.metamaskInstance.w3.eth.contract(deedAbi).at(deedAddr);
+        this.deedContract = new this.metamaskInstance.w3.eth.Contract(deedAbi,deedAddr);
         this.socket.on("claimTx", this.runClaim.bind(this));
     }
 
@@ -14,19 +14,19 @@ class Claimer {
 
     runClaim(msg)
     {
-        msg.forEach(((claim) => {
+        msg.forEach((async (claim) => {
             let nonce = claim.nonce;
             let r = this.buf2hex(claim.r);
             let s = this.buf2hex(claim.s);
-            this.deedContract.claimLandTokens(
-                this.metamaskInstance.w3.eth.accounts[0],
+	    let addr = await this.metamaskInstance.getMainAccount();
+	    this.deedContract.methods.claimLandTokens(
+                addr,
                 claim.plotIds,
                 nonce,
                 claim.v,
                 r,
-                s,
-                ()=>{}
-            );
+                s
+            ).send({from: addr});
         }).bind(this))
     }
 }

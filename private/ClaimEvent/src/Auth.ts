@@ -33,7 +33,7 @@ class Authenticator
             let msgHash = util.hashPersonalMessage(msgBuffer);
             let signatureBuffer = util.toBuffer(sig);
             // @ts-ignore
-            let signatureParams = util.fromRpcSig(signatureBuffer);
+	    let signatureParams = util.fromRpcSig(signatureBuffer);
             let publicChallange = util.ecrecover(
                 msgHash,
                 signatureParams.v,
@@ -41,8 +41,8 @@ class Authenticator
                 signatureParams.s
             );
             let addressBuffer = util.pubToAddress(publicChallange);
-            let resultAddr = util.bufferToHex(addressBuffer);
-            return (resultAddr == addr);
+	    let resultAddr = util.bufferToHex(addressBuffer);
+            return (resultAddr == addr.toLowerCase());
         } catch (e) {
             console.log(`${addr} sent "${sig}" and caused and error "${e}"`);
             return false; 

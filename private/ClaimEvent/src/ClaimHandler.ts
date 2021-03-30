@@ -27,8 +27,7 @@ class ClaimHandler {
 
     setupHandlers(socket : SocketInstance) {
         socket.on("buildTx", (async () => {
-            let plotArray = await this.getUserPlots(socket.addr);
-            this.flagPlotsAsClaimed(plotArray);
+            let plotArray = await this.getUserPlots(socket.addr.toLowerCase());
             let txRetPromised : any = await this.txBuilder.buildManyTx(plotArray, socket.addr)
             let txRet = await Promise.all(txRetPromised);
             socket.emit("claimTx", txRet);
